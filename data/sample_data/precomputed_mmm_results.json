@@ -1,0 +1,99 @@
+{
+  "model_id": "MMM-BAYES-ADSTOCK-HILL-2026",
+  "fitted_at": "2026-10-12T10:00:00Z",
+  "model_type": "Bayesian MMM (Adstock Decay + Hill Saturation)",
+  "sampling_method": "NUTS (No-U-Turn Sampler, 4 chains x 1500 draws)",
+  "convergence_diagnostics": {
+    "max_r_hat": 1.018,
+    "min_effective_sample_size": 2450,
+    "divergent_transitions": 0,
+    "status": "CONVERGED_EXCELLENT"
+  },
+  "goodness_of_fit": {
+    "r_squared": 0.932,
+    "mape_pct": 5.4,
+    "rmse_usd": 12450.0,
+    "holdout_mape_pct": 6.8
+  },
+  "total_revenue_modeled": 11489000.0,
+  "channels": [
+    {
+      "channel_name": "Google Search",
+      "total_spend": 1452000.0,
+      "modeled_contribution": 2178000.0,
+      "contribution_pct": 18.96,
+      "blended_roas": 1.50,
+      "marginal_roas": 0.78,
+      "adstock_decay_alpha": 0.25,
+      "hill_half_saturation_k": 22000.0,
+      "hill_shape_s": 1.6,
+      "saturation_status": "SATURATED",
+      "recommendation_bias": "REDUCE_BUDGET"
+    },
+    {
+      "channel_name": "Meta Ads",
+      "total_spend": 1085000.0,
+      "modeled_contribution": 2278000.0,
+      "contribution_pct": 19.83,
+      "blended_roas": 2.10,
+      "marginal_roas": 1.42,
+      "adstock_decay_alpha": 0.45,
+      "hill_half_saturation_k": 20000.0,
+      "hill_shape_s": 1.8,
+      "saturation_status": "OPTIMAL_PACE",
+      "recommendation_bias": "MAINTAIN"
+    },
+    {
+      "channel_name": "Retail Media (Amazon/Walmart)",
+      "total_spend": 532000.0,
+      "modeled_contribution": 1862000.0,
+      "contribution_pct": 16.21,
+      "blended_roas": 3.50,
+      "marginal_roas": 2.65,
+      "adstock_decay_alpha": 0.30,
+      "hill_half_saturation_k": 18000.0,
+      "hill_shape_s": 2.1,
+      "saturation_status": "UNDER_ALLOCATED",
+      "recommendation_bias": "SCALE_AGGRESSIVELY"
+    },
+    {
+      "channel_name": "YouTube Video",
+      "total_spend": 388000.0,
+      "modeled_contribution": 970000.0,
+      "contribution_pct": 8.44,
+      "blended_roas": 2.50,
+      "marginal_roas": 1.85,
+      "adstock_decay_alpha": 0.65,
+      "hill_half_saturation_k": 14000.0,
+      "hill_shape_s": 1.4,
+      "saturation_status": "EXPANDING",
+      "recommendation_bias": "SCALE_MODERATE"
+    },
+    {
+      "channel_name": "Email Marketing",
+      "total_spend": 128000.0,
+      "modeled_contribution": 896000.0,
+      "contribution_pct": 7.80,
+      "blended_roas": 7.00,
+      "marginal_roas": 3.80,
+      "adstock_decay_alpha": 0.15,
+      "hill_half_saturation_k": 3500.0,
+      "hill_shape_s": 2.2,
+      "saturation_status": "EFFICIENT_NICHE",
+      "recommendation_bias": "MAXIMIZE_REACH"
+    },
+    {
+      "channel_name": "Organic Baseline & Direct",
+      "total_spend": 0.0,
+      "modeled_contribution": 3305000.0,
+      "contribution_pct": 28.77,
+      "blended_roas": 0.0,
+      "marginal_roas": 0.0,
+      "adstock_decay_alpha": 0.0,
+      "hill_half_saturation_k": 0.0,
+      "hill_shape_s": 0.0,
+      "saturation_status": "ORGANIC_FOUNDATION",
+      "recommendation_bias": "DEFEND"
+    }
+  ]
+}

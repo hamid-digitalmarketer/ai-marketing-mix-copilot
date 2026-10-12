@@ -1,0 +1,31 @@
+dma_code,dma_name,state,group,pre_test_weekly_revenue,test_weekly_revenue,test_weekly_spend,conversions_pre,conversions_test
+501,New York,NY,treatment,84500,85400,12500,1120,1130
+803,Los Angeles,CA,treatment,76200,77100,11200,1010,1025
+602,Chicago,IL,control,58400,44300,0,780,590
+504,Philadelphia,PA,control,46200,35100,0,610,460
+623,Dallas-Ft. Worth,TX,treatment,52100,52800,7800,690,700
+618,Houston,TX,treatment,48900,49600,7400,650,660
+511,Washington DC,DC,control,45300,34400,0,600,455
+524,Atlanta,GA,treatment,44100,44700,6600,590,600
+506,Boston,MA,control,43200,32800,0,580,440
+753,Phoenix,AZ,treatment,38500,39100,5800,510,518
+819,Seattle-Tacoma,WA,control,37400,28400,0,500,380
+539,Tampa-St. Pete,FL,treatment,36200,36700,5400,480,488
+613,Minneapolis-St. Paul,MN,control,35100,26600,0,470,355
+505,Detroit,MI,treatment,34200,34700,5100,460,468
+751,Denver,CO,control,33500,25400,0,450,340
+534,Orlando-Daytona,FL,treatment,32100,32600,4800,430,438
+510,Cleveland-Akron,OH,control,31200,23700,0,420,318
+862,Sacramento-Stockton,CA,treatment,30400,30900,4500,410,418
+517,Charlotte,NC,control,29500,22400,0,390,296
+820,Portland,OR,treatment,28900,29300,4300,380,386
+609,St. Louis,MO,control,28100,21300,0,370,280
+508,Pittsburgh,PA,treatment,27500,27900,4100,360,366
+527,Indianapolis,IN,control,26800,20300,0,360,272
+512,Baltimore,MD,treatment,26200,26600,3900,350,356
+770,Salt Lake City,UT,control,25400,19300,0,340,258
+641,San Antonio,TX,treatment,24800,25200,3700,330,336
+616,Kansas City,MO,control,24100,18300,0,320,242
+535,Columbus,OH,treatment,23500,23900,3500,310,316
+617,Milwaukee,WI,control,22900,17400,0,300,228
+515,Cincinnati,OH,control,22200,16800,0,290,220
