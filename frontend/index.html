@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Marketing Mix & Incrementality Copilot</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .badge-critical { background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+    .badge-high { background-color: #ffedd5; color: #9a3412; border: 1px solid #fb923c; }
+    .badge-medium { background-color: #fef9c3; color: #854d0e; border: 1px solid #facc15; }
+    .badge-low { background-color: #ecfdf5; color: #065f46; border: 1px solid #34d399; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <!-- Top Navigation Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-md">
+          MMM
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+            AI Marketing Mix & Incrementality Copilot
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-300">
+              Bayesian MMM &bull; Causal Inference
+            </span>
+          </h1>
+          <p class="text-xs text-slate-500">True Incremental Lift &bull; Marginal ROI Optimization &bull; Human Governance</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-2 h-2 mr-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          Demo Mode: Zero API Cost
+        </span>
+        <button onclick="openTracesModal()" class="px-3.5 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 transition shadow-sm">
+          Observability Traces
+        </button>
+        <button onclick="triggerCopilotAudit()" id="runAuditBtn" class="px-4 py-1.5 text-xs font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 shadow transition flex items-center gap-1.5">
+          <span>Run Full Copilot Audit</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- KPI Metric Overview Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Active Copilot Agents</div>
+        <div class="mt-1 text-2xl font-bold text-slate-900" id="statAgents">5</div>
+        <div class="text-xs text-slate-400 mt-0.5">Quality, Model, Causal, Scenario, Explain</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Strategic Recommendations</div>
+        <div class="mt-1 text-2xl font-bold text-purple-600" id="statRecs">0</div>
+        <div class="text-xs text-slate-400 mt-0.5" id="statPending">0 pending review</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">MCMC Convergence</div>
+        <div class="mt-1 text-2xl font-bold text-emerald-600" id="statMCMC">R̂ 1.018</div>
+        <div class="text-xs text-slate-400 mt-0.5">ESS: 2,450 &bull; 0 divergences</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Model Goodness-of-Fit</div>
+        <div class="mt-1 text-2xl font-bold text-indigo-600">R² 0.93</div>
+        <div class="text-xs text-slate-400 mt-0.5">MAPE: 5.4% (Holdout: 6.8%)</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-medium text-slate-500 uppercase tracking-wider">Projected Annual Lift</div>
+        <div class="mt-1 text-2xl font-bold text-emerald-600">+$408,200</div>
+        <div class="text-xs text-emerald-700 font-medium mt-0.5">+$0 added media budget</div>
+      </div>
+    </div>
+
+    <!-- Charts Row: Contributions & Marginal ROAS -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Revenue Decomposition -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Bayesian Channel Contribution</h2>
+        <p class="text-xs text-slate-500 mb-4">Total Modeled Revenue: $11.49M</p>
+        <div class="h-64 flex items-center justify-center">
+          <canvas id="contributionChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Blended ROAS vs Marginal ROAS (mROI) -->
+      <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Blended ROAS vs. Marginal ROAS (mROI)</h2>
+            <p class="text-xs text-slate-500">Exposes saturation: where the next marginal dollar is wasted vs where it generates high return</p>
+          </div>
+          <span class="text-xs text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200 font-medium">Search Saturated (mROI $0.78)</span>
+        </div>
+        <div class="h-64">
+          <canvas id="mroiChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Causal Geo Holdout Highlight Card -->
+    <div class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white rounded-2xl p-6 shadow-md">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-purple-500/30 text-purple-200 border border-purple-400/30">
+            Causal Inference &bull; Geo Holdout Difference-in-Differences
+          </span>
+          <h2 class="text-lg font-bold mt-2">Empirical Proof: Search Ads Over-Report ROAS by 62%</h2>
+          <p class="text-xs text-purple-200 max-w-2xl mt-1">
+            Across 30 matched DMA markets (15 treatment vs 15 holdouts with ads switched off for 4 weeks), Google Ads reported a <strong>3.80x last-touch ROAS</strong>, but true causal incremental ROAS was <strong>1.45x</strong> (p &lt; 0.001). Organic baseline was cannibalized by brand bidding.
+          </p>
+        </div>
+        <div class="flex items-center gap-4 bg-white/10 p-3.5 rounded-xl backdrop-blur-sm border border-white/10">
+          <div class="text-center px-3 border-r border-white/20">
+            <div class="text-xs text-purple-200 uppercase">Platform ROAS</div>
+            <div class="text-xl font-extrabold text-slate-300 line-through">3.80x</div>
+          </div>
+          <div class="text-center px-3">
+            <div class="text-xs text-purple-200 uppercase">Causal iROAS</div>
+            <div class="text-2xl font-extrabold text-emerald-400">1.45x</div>
+          </div>
+          <div class="text-center px-3 border-l border-white/20">
+            <div class="text-xs text-purple-200 uppercase">Haircut</div>
+            <div class="text-xl font-extrabold text-rose-400">-61.8%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Budget Scenario Simulator Tool -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-base font-bold text-slate-900">Interactive Budget Reallocation Simulator</h2>
+          <p class="text-xs text-slate-500">Test counterfactual budget reallocations and simulate predicted revenue lift with 90% Bayesian credible intervals.</p>
+        </div>
+        <button onclick="applyOptimalPreset()" class="text-xs font-semibold px-3 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-100 transition">
+          Apply Optimal Preset (-$8.4k Search, +$6.3k Retail)
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="space-y-4">
+          <div>
+            <label class="text-xs font-semibold text-slate-700 flex justify-between">
+              <span>Google Search Weekly Shift:</span>
+              <span id="searchShiftLabel" class="text-rose-600 font-bold">-$5,000 / wk</span>
+            </label>
+            <input type="range" id="searchShiftInput" min="-15000" max="0" step="500" value="-5000" oninput="updateSimulation()" class="w-full accent-rose-600">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700 flex justify-between">
+              <span>Retail Media Weekly Shift:</span>
+              <span id="retailShiftLabel" class="text-emerald-600 font-bold">+$5,000 / wk</span>
+            </label>
+            <input type="range" id="retailShiftInput" min="0" max="15000" step="500" value="5000" oninput="updateSimulation()" class="w-full accent-emerald-600">
+          </div>
+        </div>
+
+        <div class="md:col-span-2 bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-wrap items-center justify-around gap-4 text-center">
+          <div>
+            <div class="text-xs font-medium text-slate-500 uppercase">Weekly Net Revenue Lift</div>
+            <div class="text-xl font-bold text-emerald-600" id="simWeeklyLift">+$4,650.00 / wk</div>
+            <div class="text-[11px] text-slate-400">90% CI: <span id="simCredible">[+$4,090, +$5,210]</span></div>
+          </div>
+          <div class="border-l border-slate-200 pl-4">
+            <div class="text-xs font-medium text-slate-500 uppercase">Annualized Projected Revenue</div>
+            <div class="text-2xl font-extrabold text-purple-700" id="simAnnualLift">+$241,800.00 / yr</div>
+            <div class="text-[11px] text-emerald-600 font-medium">Zero net media budget increase</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations & Approval Queue -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h2 class="text-base font-bold text-slate-900">Strategic Recommendations & Approval Queue</h2>
+          <p class="text-xs text-slate-500">Every capital reallocation and experiment launch requires human sign-off.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="filterStatus('all')" id="tab-all" class="px-3 py-1 text-xs font-semibold rounded-lg bg-purple-50 text-purple-700 border border-purple-200">All</button>
+          <button onclick="filterStatus('pending')" id="tab-pending" class="px-3 py-1 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-100">Pending</button>
+          <button onclick="filterStatus('approved')" id="tab-approved" class="px-3 py-1 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-100">Approved</button>
+          <button onclick="filterStatus('executed')" id="tab-executed" class="px-3 py-1 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-100">Executed</button>
+          <button onclick="filterStatus('measured')" id="tab-measured" class="px-3 py-1 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-100">Measured Outcomes</button>
+        </div>
+      </div>
+
+      <div id="recsContainer" class="divide-y divide-slate-100 p-4 space-y-4">
+        <div class="text-center py-12 text-slate-400 text-sm">Loading strategic recommendations...</div>
+      </div>
+    </div>
+
+    <!-- Measured Business Outcomes Table -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+      <h2 class="text-base font-bold text-slate-900 mb-1">Measured Post-Execution Outcomes</h2>
+      <p class="text-xs text-slate-500 mb-4">Tracks whether approved budget shifts delivered the promised incremental ROAS lift against pre-shift baselines.</p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs text-left">
+          <thead class="bg-slate-50 text-slate-500 uppercase font-semibold">
+            <tr>
+              <th class="px-4 py-2.5">Action ID</th>
+              <th class="px-4 py-2.5">Metric Tracked</th>
+              <th class="px-4 py-2.5">Baseline</th>
+              <th class="px-4 py-2.5">Measured Post-Action</th>
+              <th class="px-4 py-2.5">Verified Lift</th>
+              <th class="px-4 py-2.5">Status</th>
+            </tr>
+          </thead>
+          <tbody id="outcomesTableBody" class="divide-y divide-slate-100">
+            <tr>
+              <td colspan="6" class="px-4 py-6 text-center text-slate-400">No measured outcomes yet. Approve and execute an action above to track results.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Observability Traces Modal -->
+  <div id="tracesModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-slate-200">
+      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+        <h3 class="text-base font-bold text-slate-900">Observability Traces & Tool Telemetry</h3>
+        <button onclick="closeTracesModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl px-2">&times;</button>
+      </div>
+      <div class="p-4 overflow-y-auto space-y-3 flex-1 text-xs" id="tracesContainer">
+        <div class="text-slate-400 text-center py-8">No traces logged yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allRecommendations = [];
+    let currentStatusFilter = 'all';
+
+    async function initDashboard() {
+      await triggerCopilotAudit();
+      renderCharts();
+    }
+
+    async function triggerCopilotAudit() {
+      const btn = document.getElementById('runAuditBtn');
+      btn.innerText = 'Fitting Models...';
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/agents/run-all', { method: 'POST' });
+        const data = await res.json();
+        allRecommendations = data.unified_action_plan || [];
+        updateStats();
+        renderRecommendations();
+        loadOutcomes();
+      } catch (err) {
+        console.error("Audit error:", err);
+      } finally {
+        btn.innerText = 'Run Full Copilot Audit';
+        btn.disabled = false;
+      }
+    }
+
+    async function refreshRecommendations() {
+      const res = await fetch('/api/recommendations');
+      allRecommendations = await res.json();
+      updateStats();
+      renderRecommendations();
+      loadOutcomes();
+    }
+
+    async function approveRec(id) {
+      await fetch(`/api/approvals/${id}/approve`, { method: 'POST' });
+      await refreshRecommendations();
+    }
+
+    async function rejectRec(id) {
+      await fetch(`/api/approvals/${id}/reject`, { method: 'POST' });
+      await refreshRecommendations();
+    }
+
+    async function executeRec(id) {
+      const res = await fetch(`/api/approvals/${id}/execute`, { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        await fetch(`/api/approvals/${id}/measure`, { method: 'POST' });
+      }
+      await refreshRecommendations();
+    }
+
+    function filterStatus(status) {
+      currentStatusFilter = status;
+      ['all', 'pending', 'approved', 'executed', 'measured'].forEach(s => {
+        const tab = document.getElementById(`tab-${s}`);
+        if (tab) {
+          if (s === status) {
+            tab.className = "px-3 py-1 text-xs font-semibold rounded-lg bg-purple-50 text-purple-700 border border-purple-200";
+          } else {
+            tab.className = "px-3 py-1 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-100";
+          }
+        }
+      });
+      renderRecommendations();
+    }
+
+    function updateStats() {
+      document.getElementById('statRecs').innerText = allRecommendations.length;
+      const pendingCount = allRecommendations.filter(r => r.status === 'pending').length;
+      document.getElementById('statPending').innerText = `${pendingCount} pending review`;
+    }
+
+    function renderRecommendations() {
+      const container = document.getElementById('recsContainer');
+      let filtered = allRecommendations;
+      if (currentStatusFilter !== 'all') {
+        filtered = filtered.filter(r => r.status === currentStatusFilter);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-slate-400 text-sm">No recommendations matching filter "${currentStatusFilter}".</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(rec => {
+        const badgeClass = `badge-${rec.priority}`;
+        const evidenceChips = rec.evidence.map(e => `
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200">
+            <span class="font-bold mr-1">${e.source}:</span> ${e.metric} = <strong class="ml-1 text-purple-700">${e.value}</strong>
+          </span>
+        `).join('');
+
+        let actionButtons = '';
+        if (rec.status === 'pending') {
+          actionButtons = `
+            <button onclick="approveRec('${rec.id}')" class="px-3 py-1 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded shadow-sm">Approve Action</button>
+            <button onclick="rejectRec('${rec.id}')" class="px-3 py-1 text-xs font-semibold bg-slate-200 hover:bg-slate-300 text-slate-700 rounded">Reject</button>
+          `;
+        } else if (rec.status === 'approved') {
+          actionButtons = `
+            <button onclick="executeRec('${rec.id}')" class="px-3.5 py-1 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white rounded shadow animate-pulse">Execute Reallocation & Measure</button>
+          `;
+        } else if (rec.status === 'executed' || rec.status === 'measured') {
+          actionButtons = `
+            <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200 flex items-center gap-1">
+              &check; ${rec.status.toUpperCase()}
+            </span>
+          `;
+        } else {
+          actionButtons = `<span class="text-xs text-rose-600 font-semibold">REJECTED</span>`;
+        }
+
+        return `
+          <div class="p-4 rounded-xl border border-slate-200 hover:border-slate-300 transition bg-white shadow-xs">
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded ${badgeClass}">${rec.priority.toUpperCase()}</span>
+                <span class="text-xs font-semibold text-slate-500">[${rec.agent}]</span>
+                <span class="text-xs font-mono text-slate-400">${rec.id}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                ${actionButtons}
+              </div>
+            </div>
+
+            <h3 class="text-sm font-bold text-slate-900 mb-1.5">${rec.issue}</h3>
+            <p class="text-xs text-slate-600 mb-3">${rec.proposed_action}</p>
+
+            <div class="mb-3 flex flex-wrap gap-1.5">
+              ${evidenceChips}
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+              <div><strong class="text-slate-700">Expected Impact:</strong> ${rec.expected_impact}</div>
+              <div><strong class="text-slate-700">Effort:</strong> ${rec.effort.toUpperCase()} &bull; <strong class="text-slate-700">Confidence:</strong> ${(rec.confidence * 100).toFixed(0)}%</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function loadOutcomes() {
+      try {
+        const res = await fetch('/api/approvals/outcomes');
+        const outcomes = await res.json();
+        const tbody = document.getElementById('outcomesTableBody');
+        
+        if (outcomes.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-slate-400">No measured outcomes yet. Approve and execute an action above to track results.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = outcomes.map(o => {
+          const imp = o.measured_improvement || {};
+          return `
+            <tr class="hover:bg-slate-50">
+              <td class="px-4 py-2.5 font-mono font-semibold text-purple-600">${o.rec_id}</td>
+              <td class="px-4 py-2.5 font-medium text-slate-900">${imp.metric || 'N/A'}</td>
+              <td class="px-4 py-2.5 text-slate-500">${imp.baseline_value || 'N/A'}</td>
+              <td class="px-4 py-2.5 font-bold text-slate-900">${imp.measured_value || 'N/A'}</td>
+              <td class="px-4 py-2.5 font-semibold text-emerald-600">${imp.delta || 'In progress'}</td>
+              <td class="px-4 py-2.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                  ${imp.verdict || 'MEASURING'}
+                </span>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function openTracesModal() {
+      const modal = document.getElementById('tracesModal');
+      const container = document.getElementById('tracesContainer');
+      modal.classList.remove('hidden');
+      
+      const res = await fetch('/api/observability/traces');
+      const traces = await res.json();
+      
+      if (traces.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-slate-400">No traces available.</div>';
+        return;
+      }
+
+      container.innerHTML = traces.slice(-20).reverse().map(t => `
+        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-bold text-slate-800">${t.agent} &rarr; <code class="text-purple-600">${t.tool_name}</code></span>
+            <span class="text-slate-400 font-mono">${t.latency_ms} ms</span>
+          </div>
+          <div class="text-[11px] text-slate-600"><strong>Status:</strong> <span class="text-emerald-600 font-semibold">${t.status}</span> | <strong>Permission:</strong> ${t.permission}</div>
+          <div class="mt-1 text-[11px] text-slate-500 font-mono bg-white p-2 rounded border border-slate-100 truncate">Output: ${t.outputs_summary || 'null'}</div>
+        </div>
+      `).join('');
+    }
+
+    function closeTracesModal() {
+      document.getElementById('tracesModal').classList.add('hidden');
+    }
+
+    function updateSimulation() {
+      const searchShift = parseFloat(document.getElementById('searchShiftInput').value);
+      const retailShift = parseFloat(document.getElementById('retailShiftInput').value);
+
+      document.getElementById('searchShiftLabel').innerText = `${searchShift < 0 ? '-' : '+'}$${Math.abs(searchShift).toLocaleString()} / wk`;
+      document.getElementById('retailShiftLabel').innerText = `+$${retailShift.toLocaleString()} / wk`;
+
+      // Search mROI: ~0.78, Retail Media mROI: ~2.65
+      const searchDelta = searchShift * 0.78;
+      const retailDelta = retailShift * 2.65;
+      const netWeeklyLift = Math.max(0, searchDelta + retailDelta);
+      const annualLift = netWeeklyLift * 52;
+
+      document.getElementById('simWeeklyLift').innerText = `+$${netWeeklyLift.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / wk`;
+      document.getElementById('simAnnualLift').innerText = `+$${annualLift.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / yr`;
+      document.getElementById('simCredible').innerText = `[+$${(netWeeklyLift * 0.88).toFixed(0)}, +$${(netWeeklyLift * 1.12).toFixed(0)}]`;
+    }
+
+    function applyOptimalPreset() {
+      document.getElementById('searchShiftInput').value = -8400;
+      document.getElementById('retailShiftInput').value = 6300;
+      updateSimulation();
+    }
+
+    function renderCharts() {
+      // Contribution Donut
+      const ctxDonut = document.getElementById('contributionChart').getContext('2d');
+      new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+          labels: ['Organic Baseline', 'Meta Ads', 'Google Search', 'Retail Media', 'YouTube', 'Email'],
+          datasets: [{
+            data: [28.8, 19.8, 19.0, 16.2, 8.4, 7.8],
+            backgroundColor: ['#64748b', '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+        }
+      });
+
+      // Blended vs Marginal ROAS Bar Chart
+      const ctxMroi = document.getElementById('mroiChart').getContext('2d');
+      new Chart(ctxMroi, {
+        type: 'bar',
+        data: {
+          labels: ['Google Search', 'Meta Ads', 'Retail Media', 'YouTube Video', 'Email Marketing'],
+          datasets: [
+            {
+              label: 'Blended ROAS (Historical Average)',
+              data: [1.50, 2.10, 3.50, 2.50, 7.00],
+              backgroundColor: '#cbd5e1'
+            },
+            {
+              label: 'Marginal ROAS (Next Dollar Efficiency)',
+              data: [0.78, 1.42, 2.65, 1.85, 3.80],
+              backgroundColor: ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: 'ROAS Multiplier (x)' } }
+          }
+        }
+      });
+    }
+
+    window.onload = initDashboard;
+  </script>
+</body>
+</html>
