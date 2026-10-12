@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  copilot:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile
+    container_name: ai_marketing_mix_copilot
+    ports:
+      - "8000:8000"
+    environment:
+      - DEMO_MODE=true
+      - ENVIRONMENT=production
+      - DATABASE_URL=sqlite:///./copilot.db
+    volumes:
+      - ./data/sample_data:/app/data/sample_data
+      - copilot_data:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  copilot_data:

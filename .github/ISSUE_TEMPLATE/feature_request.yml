@@ -1,0 +1,27 @@
+name: Feature Request
+description: Propose a new feature, agent, or econometric model
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share your ideas for new causal algorithms, agent capabilities, or dashboard features.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What challenge or marketing decision does this feature address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the agent, tool, or mathematical modeling methodology.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any other approaches or existing tools you have evaluated?

@@ -1,0 +1,38 @@
+name: Bug Report
+description: Create a report to help us improve the Copilot
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue!
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Python version, library versions
+      placeholder: e.g. Windows 11 / Ubuntu 22.04, Python 3.11.9
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Exact steps or code snippet to reproduce the bug
+      placeholder: 1. Run python demo.py...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened, including tracebacks or error logs
+    validations:
+      required: true
